@@ -19,45 +19,82 @@
             </div>
         </div>
         <!--Main Page-->
-        <!--Container for API data-->
-
-
+        <div class="container" id="form-module">
+            <div class="row">
+                <div class="col-12">
+                    <form id="input-form">
+                        <label for="latitude">Latitude:</label>
+                        <input type="number" id="latitude" name="latitude" required>
+                        <label for="longitude">Longitude:</label>
+                        <input type="number" id="longitude" name="longitude" required>
+                        <label for="sundate">Date:</label>
+                        <input type="date" id="sundate" name="sundate" required>
+                        <input type="button" id="submit-button" value="Submit">
+                    </form>
+                </div>
+            </div>
+        </div>
+            <!--Container for API data-->
+        <div class="container" id="display-module"></div>
+            <div class="row">
+                <div class="col">
+                    <img src="images/sunrise.png" alt="an icon of a sunrise">
+                    <div class="time-display" id="sunrise-time">
+                        <p>Sunrise time will be displayed here</p>
+                    </div>
+                </div>
+                <div class="col">
+                    <img src="images/sunset.png" alt="an icon of a sunset">
+                    <div class="time-display" id="sunset-time">
+                        <p>Sunset time will be displayed here</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
         <script>
-            getSunset();
-
             // call API
-            function getSunset(){
+            function getTimes(){
                 var url = buildURL();
                 var xhttp = new XMLHttpRequest();
                 xhttp.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200) {
                     var resultsObject = JSON.parse(this.responseText);
                     console.log(resultsObject);
-                    console.log(resultsObject.results.sunset);
-                    console.log(resultsObject.results.sunrise);
-                    displaySunset();
-                    displaySunrise();
+                    //console.log(resultsObject.results.sunset);
+                    //console.log(resultsObject.results.sunrise);
+                    displaySunset(resultsObject.results.sunset);
+                    displaySunrise(resultsObject.results.sunrise);
                 }
             };
-                xhttp.open("GET", "https://api.sunrise-sunset.org/json?lat=36.7201600&lng=-4.4203400&date=today");
+                xhttp.open("GET", url,true);
                 xhttp.send();
             }
             // build link
             function buildURL(){
-                var baseURL = '"https://api.sunrise-sunset.org/json?';
+                var baseURL = 'https://api.sunrise-sunset.org/json?';
                 //variables for lat lon and date;
-
-                var finishedURL = baseURL;
+                var latitude = document.getElementById('latitude').value;
+                var longitude = document.getElementById('longitude').value;
+                var date = document.getElementById('sundate').value;
+                console.log(date);
+                var finishedURL = baseURL+'lat='+latitude+'&lng='+longitude+'&date='+date;
+                console.log(finishedURL)
                 return finishedURL;
             }
             // display Sunset time
-            function displaySunset(){
-
+            function displaySunset(time){
+                var displayedSunset = document.getElementById("sunset-time");
+                displayedSunset.innerHTML = time;
+                console.log('displayed time',displayedSunset);
             }
             // display Sunrise time
-            function displaySunrise(){
-
+            function displaySunrise(time){
+                var displayedSunrise = document.getElementById("sunrise-time");
+                displayedSunrise.innerHTML = time;
             }
+            const formElement=document.getElementById('submit-button');
+            formElement.addEventListener('click',getTimes,false);
         </script>
     </body>
 </html>
