@@ -39,7 +39,7 @@
         </div>
             <!--Container for API data-->
         <div class="container" id="display-module">
-            <div class="row align-items-center h-100">
+            <div class="row align-items-center h-75">
                 <div class="col">
                     <img src="images/sunrise.png" id="sunrise-icon" alt="an icon of a sunrise">
                     <div class="time-display" id="sunrise-time">
@@ -51,6 +51,37 @@
                     <div class="time-display" id="sunset-time">
                         <p>Sunset time will be displayed here</p>
                     </div>
+                </div>
+            </div>
+            <div class="row align-items-center h-25">
+                <div class="col" id="daylength">
+                    <p>Day Length</p>
+                    <div id="duration-display">
+                        <p>The daylight duration will be displayed here</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid" id="about">
+            <div class="row">
+                <div class="col">
+                    <h1>About</h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <p>Sun Tracker is an app that provides sunrise and sunset times for a provided location. Sun Tracker is perfect for photographers, farmers, or anyone who depends on sunlight. </p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4">
+                    
+                </div>
+                <div class="col-4">
+
+                </div>
+                <div class="col-4">
+
                 </div>
             </div>
         </div>
@@ -68,6 +99,7 @@
                     //console.log(resultsObject.results.sunrise);
                     displaySunset(resultsObject.results.sunset);
                     displaySunrise(resultsObject.results.sunrise);
+                    displayDuration(resultsObject.results.day_length);
                 }
             };
                 xhttp.open("GET", url,true);
@@ -95,6 +127,10 @@
             function displaySunrise(time){
                 var displayedSunrise = document.getElementById("sunrise-time");
                 displayedSunrise.innerHTML = time;
+            }
+            function displayDuration(time){
+                var displayedDuration = document.getElementById("duration-display");
+                displayedDuration.innerHTML=time;
             }
             const formElement=document.getElementById('submit-button');
             formElement.addEventListener('click',getTimes,false);
